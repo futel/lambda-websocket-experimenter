@@ -1,0 +1,36 @@
+{
+    "version": "2.0",
+    "app_name": "experimenter",
+    "stages": {
+        "dev": {
+            "environment_variables": {"stage": "dev"},
+            "api_gateway_stage": "api",
+            "autogen_policy": false,
+            "iam_policy_file": "policy.json",
+            "xxxwebsocket_api_custom_domain": {
+                "domain_name": "dev.experimenter.phu73l.net",
+                "certificate_arn": "arn:aws:acm:us-east-1:168594572693:certificate/eb6622c0-c996-421d-9ae3-5ad10095a5c4"
+            }
+        },
+        "stage": {
+            "environment_variables": {"stage": "stage"},            
+            "api_gateway_stage": "api",
+            "autogen_policy": false,
+            "iam_policy_file": "policy.json",
+            "xxxwebsocket_api_custom_domain": {
+                "domain_name": "stage.experimenter.phu73l.net",
+                "certificate_arn": "arn:aws:acm:us-east-1:168594572693:certificate/eb6622c0-c996-421d-9ae3-5ad10095a5c4"
+            }
+        },
+        "prod": {
+            "environment_variables": {"stage": "prod"},
+            "api_gateway_stage": "api",
+            "autogen_policy": false,
+            "iam_policy_file": "policy.json",
+            "xxxwebsocket_api_custom_domain": {
+                "domain_name": "prod.experimenter.phu73l.net",
+                "certificate_arn": "arn:aws:acm:us-east-1:168594572693:certificate/eb6622c0-c996-421d-9ae3-5ad10095a5c4"
+            }
+        }
+    }
+}
