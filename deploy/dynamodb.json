@@ -1,0 +1,28 @@
+{
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "operation",
+            "AttributeType": "S"
+        },
+        {
+            "AttributeName": "connection_id",
+            "AttributeType": "S"
+        }
+    ],
+    "TableName": "lambda-websocket-experimenter",
+    "KeySchema": [
+        {
+            "AttributeName": "operation",
+            "KeyType": "HASH"
+        },
+        {
+            "AttributeName": "connection_id",
+            "KeyType": "RANGE"
+        }
+    ],
+    "BillingMode": "PROVISIONED",
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+    }    
+}

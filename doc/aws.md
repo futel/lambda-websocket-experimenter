@@ -15,8 +15,16 @@ Populate .env to match .env.sample:
 
 - AWS_DEFAULT_REGION us-west-2
 
+## Set up DynamoDB table
+
+- aws dynamodb create-table --cli-input-json file://deploy/dynamodb.json 
+
+# Notes
+
+Obsolete.
+
 ## Set up SNS topic
 
 - aws sns create-topic --name lambda_websocket_experimenter
 
-Note tha ARN and update the SNS_ARN value in .env as described in DEPLOY.md.
+Note the ARN and update the SNS_ARN value in .env as described in DEPLOY.md.

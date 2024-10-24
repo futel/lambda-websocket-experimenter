@@ -6,6 +6,12 @@ import os
 dotenv.load_dotenv(os.path.join(
     os.path.dirname(__file__), 'environment', '.env'))
 
+def get_table():
+    dynamodb = boto3.resource("dynamodb")
+    table = dynamodb.Table('lambda-websocket-experimenter')
+    return table
+    #return boto3.client("dynamodb")
+
 def get_env():
     env = {}
     normal_variables = {
@@ -13,11 +19,12 @@ def get_env():
         #'AWS_LOGS_TOPIC_ARN': os.environ['AWS_LOGS_TOPIC_ARN'],
         #'AWS_METRICS_TOPIC_ARN': os.environ['AWS_METRICS_TOPIC_ARN'],
         'stage': os.environ['stage'],
-        'SNS_ARN': os.environ['SNS_ARN'],
+        #'SNS_ARN': os.environ['SNS_ARN'],
         #'TWILIO_ACCOUNT_SID': os.environ['TWILIO_ACCOUNT_SID'],
         #'TWILIO_AUTH_TOKEN': os.environ['TWILIO_AUTH_TOKEN']}
         }
     json_variables = {}
     env = {**normal_variables, **json_variables}
-    env['sns_client'] = boto3.client('sns')
+    #env['sns_client'] = boto3.client('sns')
+    env['table'] = get_table()
     return env
