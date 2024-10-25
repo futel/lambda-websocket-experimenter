@@ -123,7 +123,7 @@ Using the DigitalOcean network web console, remove CNAME records for domains:
 # Notes
 
 - wsdump must be in a term
-- how can we get domain alias
 - source venv/bin/activate
 - wsdump wss://wwisk9qvg7.execute-api.us-west-2.amazonaws.com/api
+- wsdump wss://stage.experimenter.phu73l.net
 - chalice logs --stage stage -n websocket_message --follow

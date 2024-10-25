@@ -28,6 +28,7 @@ def foo():
 
 # {'Items': [{'connection_id': 'AIyPpcY0vHcCJgQ=', 'operation': 'connect'}, {'connection_id': 'AIzKXfJQPHcCGDA=', 'operation': 'connect'}, {'connection_id': 'bar', 'operation': 'connect'}, {'connection_id': 'foo', 'operation': 'connect'}], 'Count': 4, 'ScannedCount': 4, 'ResponseMetadata': {'RequestId': 'HV490E4VHA6UIMN7RI76BTDF37VV4KQNSO5AEMVJF66Q9ASUAAJG', 'HTTPStatusCode': 200, 'HTTPHeaders': {'server': 'Server', 'date': 'Thu, 24 Oct 2024 04:24:02 GMT', 'content-type': 'application/x-amz-json-1.0', 'content-length': '296', 'connection': 'keep-alive', 'x-amzn-requestid': 'HV490E4VHA6UIMN7RI76BTDF37VV4KQNSO5AEMVJF66Q9ASUAAJG', 'x-amz-crc32': '3712998993'}, 'RetryAttempts': 0}}
 def _connections():
+    # Every item with connection_id is for a connected client.
     items = env['table'].scan()
     items = items['Items']
     items = [i['connection_id'] for i in items]

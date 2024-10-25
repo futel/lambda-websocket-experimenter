@@ -1,6 +1,6 @@
 # SSL certificate
 
-Certificates are needed to for AWS Lambda to publish HTTP/S with a custom domain name.
+Certificates are needed to for AWS Lambda to publish http and websocket endpoints with a custom domain name.
 
 # Meta-requirements
 
@@ -43,8 +43,8 @@ This should be done on whatever box is handling renewals. This deployment proces
 This needs to be done after a certificate is created or renewed.
 
 - visit AWS certificate manager (ACM) web console
-- change region to us-east-1
-- import a certificate, or list, visit, reimport certificate with domain phu73l.net
+- change region to us-west-2
+- import a certificate, or list, visit, reimport certificate with domain experimenter.phu73l.net
  - certificate body /etc/letsencrypt/live/experimenter.phu73l.net/cert.pem
  - certificate private key /etc/letsencrypt/live/experimenter.phu73l.net/privkey.pem
  - certificate chain /tmp/all.pem
