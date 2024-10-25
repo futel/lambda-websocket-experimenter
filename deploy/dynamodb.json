@@ -1,10 +1,6 @@
 {
     "AttributeDefinitions": [
         {
-            "AttributeName": "operation",
-            "AttributeType": "S"
-        },
-        {
             "AttributeName": "connection_id",
             "AttributeType": "S"
         }
@@ -12,12 +8,8 @@
     "TableName": "lambda-websocket-experimenter",
     "KeySchema": [
         {
-            "AttributeName": "operation",
-            "KeyType": "HASH"
-        },
-        {
             "AttributeName": "connection_id",
-            "KeyType": "RANGE"
+            "KeyType": "HASH"
         }
     ],
     "BillingMode": "PROVISIONED",
