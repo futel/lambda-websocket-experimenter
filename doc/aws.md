@@ -11,7 +11,7 @@ AWS credentials should be set up, and the us-west-2 region configured, in ~/.aws
 ## Set up environment secrets
 
 Populate .env to match .env.sample:
-- chalicelib/environment/.env
+- app/chalicelib/environment/.env
 
 - AWS_DEFAULT_REGION us-west-2
 
@@ -19,12 +19,11 @@ Populate .env to match .env.sample:
 
 - aws dynamodb create-table --cli-input-json file://deploy/dynamodb.json 
 
-# Notes
-
-Obsolete.
-
 ## Set up SNS topic
+
+XXX Obsolete, but we will need some kind of logging?
 
 - aws sns create-topic --name lambda_websocket_experimenter
 
 Note the ARN and update the SNS_ARN value in .env as described in DEPLOY.md.
+XXX DEPLOY.md doesn't describe this? .env says that this is updated by chalice on deploy?

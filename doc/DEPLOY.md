@@ -6,16 +6,21 @@ Uses AWS Lambda, AWS API Gateway, and whatever else the Chalice framework create
 
 AWS credentials should be set up, and the us-west-2 region configured, in ~/.aws/credentials.
 
+AWS should be set up as described in aws.md.
+
 An AWS Certificate Manager certificate should be set up as described in ssl.md.
 
 Domains should be created with DigitalOcean:
 - experimenter.phu73l.net
 
+Twilio should be set up as described in twilio.md.
+
 # Requirements
 
 - debian box (trixie, ubuntu 23)
 - Python 3.11-3.12, but this should be Python 3.10
-- apt package awscli
+- awscli apt package
+  - sudo apt install awscli
 
 # Deploy and development docs
 
@@ -31,14 +36,17 @@ To be done once.
 
 ## Set up environment secrets
 
+XXX is this necessary?
+
 Populate .env to match .env.sample as described in aws.md:
 
-- chalicelib/environment/.env
+- app/chalicelib/environment/.env
 
 ## Create deployment virtualenv
 
 - python3 -m venv venv
 - source venv/bin/activate
+- cd app
 - pip install -r requirements.txt
 - python3 -m pip install chalice pytest
 
@@ -63,10 +71,6 @@ Note the AliasDomainName.
 
 ## Update domain
 
-XXX add alias domain name for REST back
-
-XXX This is for the alias domain name for REST, not working, see websocket_api_custom_domain in .config.json, needs regional cert?
-
 Have the AliasDomainName from the deploy or find the alias_domain_name:
 - .chalice/deployed/stage.json
 
@@ -81,7 +85,10 @@ Wait for DNS to be updated:
 
 ## Update Twilio Programmable Voice stage components to point to dialplan URLs
 
-XXX have a twilio.md
+Set up Twilio as described in twilio.md.
+
+XXX
+
 twiml app publishes twiml pointing to websocket? or conference?
 phone number points to twiml
 sip domain points to twiml
@@ -94,7 +101,7 @@ For the Application Resources, the URL path is "/dial_sip_e164".
 
 ## Test
 
-If stage, see test.md. Run the tests against the deployed instance.
+If stage, see test.md. Run the integration and manual tests against the deployed instance.
 
 # Update an existing instance
 
@@ -118,12 +125,3 @@ If stage, see test.md. Run the tests against the deployed instance.
 
 Using the DigitalOcean network web console, remove CNAME records for domains:
 - experimenter.phu73l.net
-
-
-# Notes
-
-- wsdump must be in a term
-- source venv/bin/activate
-- wsdump wss://wwisk9qvg7.execute-api.us-west-2.amazonaws.com/api
-- wsdump wss://stage.experimenter.phu73l.net
-- chalice logs --stage stage -n websocket_message --follow

@@ -1,6 +1,14 @@
 # SSL certificate
 
-Certificates are needed to for AWS Lambda to publish http and websocket endpoints with a custom domain name.
+Certificates are needed to for AWS Lambda to publish HTTP, HTTPS, and websocket endpoints with a custom domain name.
+
+The process is:
+- Create certificate and create calendar renew/reimport reminder
+- Import certificate to AWS
+- Renew certificate peridocally before expiration, or verify renewal
+- Reimport certificate to AWS peridocally before expiration
+
+Note that this certificat is a child of phu73l.net, which is used by dialplan-functions.
 
 # Meta-requirements
 
@@ -16,7 +24,7 @@ The phu73l.net certificate (and not *.phu37l.net) should have been set up for th
 - debian box (trixie, ubuntu 23)
 - openssl (3.2.2-1)
 - snapd apt package
-  - sudo apd install snapd
+  - sudo apt install snapd
 - snapd snap package
   - sudo snap install snapd
 - certbot and plugin snap (2.11.0)
@@ -30,13 +38,28 @@ The phu73l.net certificate (and not *.phu37l.net) should have been set up for th
 
 # Create certificate
 
-This needs to be done to create the first certificate, or to create a replacement after changing attributes.
+This needs to be done when a valid certificate doesn't exist or after attributes have changed. The certificate is registered with let's encrypt. This is done on whatever box will handle renewals.
 
-This should be done on whatever box is handling renewals. This deployment process doesn't outline requirements to make automatic renewal reliable, eg it is probably running on a laptop, so manual renewals or at least verification are assumed.
+Verify with "sudo certbot certificates", see valid certificate for "experimenter.phu73l.net *.experimenter.phu73l.net".
 
 - sudo certbot certonly --dns-digitalocean --dns-digitalocean-credentials conf/certbot-creds.ini -d experimenter.phu73l.net -d *.experimenter.phu73l.net
-- add expiration to calendar
+- add expiration to a human's calendar
 - sudo cat /etc/letsencrypt/live/experimenter.phu73l.net/cert.pem /etc/letsencrypt/live/experimenter.phu73l.net/chain.pem /etc/letsencrypt/live/experimenter.phu73l.net/fullchain.pem >/tmp/all.pem
+
+## Set up renewal
+
+This deployment process doesn't include requirements to make automatic renewal reliable, it is probably running on a laptop, so manual renewals or at least verification of automatic renewals are assumed. Automatic renewal may have been set up by the creation method, and one way is to add a line to /etc/cron.d/letsencrypt:
+
+  0 */12 * * * root perl -e 'sleep int(rand(43200))' && certbot renew --cert-name experimenter.phu73l.net --dns-digitalocean --dns-digitalocean-credentials /home/karl/Documents/repo/futel/lambda-websocket-experimenter/conf/certbot-creds.ini
+
+## Set up monitoring
+
+Sign up for Red Sift for certificate monitoring.
+
+- https://iam.redsift.cloud/
+  - enter an email to receive notifications
+- domains/add domain:
+  - experimenter.phu73l.net
 
 # Import or reimport and deploy certificate
 
@@ -48,7 +71,8 @@ This needs to be done after a certificate is created or renewed.
  - certificate body /etc/letsencrypt/live/experimenter.phu73l.net/cert.pem
  - certificate private key /etc/letsencrypt/live/experimenter.phu73l.net/privkey.pem
  - certificate chain /tmp/all.pem
- 
+   - this assumes /tmp/all.pem was populated above, if not, remake it
+   
 If this is a new certificate, note the ARN. This is needed to deploy the AWS API Gateway.
 
 # Update Lambda functions to use new certificate
@@ -66,12 +90,12 @@ This needs to be done after a certificate is created.
 
 Certificates must be renewed before they expire.
 
-The certificate creation method might set up automatic renewal using systemd? Notice the renewal warning email, check, and be prepared to manually renew at the end of the certificate's life. This deployment process doesn't outline requirements to make automatic renewal reliable, eg it is probably running on a laptop, and we need to reimport to aws after renewal?
+This should have been set up by the certificate creation method using systemd, but hasn't been tested, so be prepared to manually renew at the end of the certificate's life. This deployment process doesn't include requirements to make automatic renewal reliable, it is probably running on a laptop, and we need to reimport to aws after renewal?
 
-sudo certbot renew --cert-name dialplans.phu73l.net --dns-digitalocean --dns-digitalocean-credentials conf/certbot-creds.ini
+sudo certbot renew --cert-name experimenter.phu73l.net --dns-digitalocean --dns-digitalocean-credentials conf/certbot-creds.ini
 
-- add expiration to calendar, "sudo certbot certificates" to show the date
-- sudo cat /etc/letsencrypt/live/phu73l.net/cert.pem /etc/letsencrypt/live/phu73l.net/chain.pem /etc/letsencrypt/live/phu73l.net/fullchain.pem >/tmp/all.pem
+- add a weeklong event for expiration to calendar, "sudo certbot certificates" to show the date
+- sudo cat /etc/letsencrypt/live/experimenter.phu73l.net/cert.pem /etc/letsencrypt/live/experimenter.phu73l.net/chain.pem /etc/letsencrypt/live/experimenter.phu73l.net/fullchain.pem >/tmp/all.pem
 - Reimport the certificate as in Import or reimport and deploy certificate
 
 ---

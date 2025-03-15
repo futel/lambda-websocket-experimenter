@@ -1,3 +1,6 @@
+import base64
+import json
+
 # def get_instance(env):
 #     # We could use the host header in the request instead?
 #     return env['stage']
@@ -34,3 +37,17 @@ def announce_connection(connection_id, env):
 def remove_connection(connection_id, env):
     env['table'].delete_item(
         Key={'connection_id': connection_id})
+
+def media_payload(message):
+    """ Return payload from message, or None."""
+    body = message.body
+    try:
+        body = json.loads(body)
+        # log("payload")
+        # log(body)
+        # log(body['event'])
+        # log(body['media']['payload'])
+        if body['event'] == 'media':
+            return base64.b64decode(body['media']['payload'])
+    except:
+        return None
