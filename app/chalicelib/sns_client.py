@@ -10,7 +10,7 @@ Publish messages to sns.
 #         Message=json.dumps({'default': json.dumps(message)}),
 #         MessageStructure='json')
 
-def publish(message, env):
-    return env['sns_client'].publish(
-        TargetArn=env['SNS_ARN'],
-        Message=message)
+# def publish(message, env):
+#     return env['sns_client'].publish(
+#         TargetArn=env['SNS_ARN'],
+#         Message=message)

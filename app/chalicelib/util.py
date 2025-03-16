@@ -24,6 +24,7 @@ def log(msg):
 
 
 def announce_connection(connection_id, env):
+    """Enter the connection into the table."""
     #sns_client.publish(event.connection_id, env)
     #env['table'].put_item(
     #    Item={"operation": "connect", "connection_id": event.connection_id})
@@ -35,19 +36,20 @@ def announce_connection(connection_id, env):
         Item={"operation": "connect", "connection_id": connection_id})
 
 def remove_connection(connection_id, env):
+    """Remove the connection from the table."""
     env['table'].delete_item(
         Key={'connection_id': connection_id})
 
-def media_payload(message):
-    """ Return payload from message, or None."""
-    body = message.body
-    try:
-        body = json.loads(body)
-        # log("payload")
-        # log(body)
-        # log(body['event'])
-        # log(body['media']['payload'])
-        if body['event'] == 'media':
-            return base64.b64decode(body['media']['payload'])
-    except:
-        return None
+# def media_payload(message):
+#     """ Return payload from message, or None."""
+#     body = message.body
+#     try:
+#         body = json.loads(body)
+#         # log("payload")
+#         # log(body)
+#         # log(body['event'])
+#         # log(body['media']['payload'])
+#         if body['event'] == 'media':
+#             return base64.b64decode(body['media']['payload'])
+#     except:
+#         return None

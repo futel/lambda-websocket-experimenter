@@ -64,6 +64,7 @@ See test.md. Run the local tests.
 
 ## Deploy instances
 
+- cd app
 - source venv/bin/activate
 - chalice deploy --stage stage
 
