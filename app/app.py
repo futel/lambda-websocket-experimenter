@@ -92,16 +92,6 @@ def message(event):
     util.log("message {}".format(event.connection_id))
     util.log(event.to_dict())
 
-    # # XXX Testing, echo.
-    # try:
-    #     app.websocket_api.send(
-    #         connection_id=event.connection_id,
-    #         message=event.body,
-    #     )
-    # except chalice.WebsocketDisconnectedError as e:
-    #     pass  # Disconnected so we can't send the message back.
-
-
     # XXX Testing, play to other clients.
     payload = _event_payload(event)
     if payload:
